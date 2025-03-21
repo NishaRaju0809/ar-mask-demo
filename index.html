@@ -3,24 +3,52 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AR Hair Mask Demo</title>
+  <title>AR Mask Demo</title>
   <style>
-    body { margin: 0; overflow: hidden; }
-    video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
-    #hair { position: absolute; top: 10%; left: 50%; transform: translateX(-50%); width: 40%; opacity: 0.9; }
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
+    #container {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      background-color: black;
+    }
+    video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      z-index: 1;
+    }
+    #overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 2;
+      pointer-events: none;
+    }
   </style>
 </head>
 <body>
-  <video id="video" autoplay playsinline muted></video>
-  <img id="hair" src="https://i.postimg.cc/HWFJbwjg/Screenshot-2025-03-21-at-5-52-35-PM.png" alt="Hair Overlay">
+  <div id="container">
+    <video id="video" autoplay playsinline></video>
+    <img id="overlay" src="https://i.postimg.cc/HWFJbwjg/Screenshot-2025-03-21-at-5-52-35-PM.png" alt="AR Mask">
+  </div>
+
   <script>
-    const video = document.getElementById('video');
-    navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } })
+    navigator.mediaDevices.getUserMedia({ video: true })
       .then(stream => {
+        const video = document.getElementById('video');
         video.srcObject = stream;
       })
       .catch(err => {
-        console.error("Error accessing camera: ", err);
+        console.error("Error accessing webcam: ", err);
       });
   </script>
 </body>
