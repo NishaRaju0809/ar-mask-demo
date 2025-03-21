@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hair Overlay AR Demo</title>
+  <style>
+    body { margin: 0; overflow: hidden; background: #000; }
+    canvas, video { position: absolute; top: 0; left: 0; }
+    #overlay-img {
+      position: absolute;
+      width: 200px;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+    }
+  </style>
+</head>
+<body>
+  <video id="video" autoplay muted playsinline></video>
+  <img id="overlay-img" src="https://i.ibb.co/FbYkvdX/hair-overlay.png" alt="Hair Overlay">
+
+  <script>
+    const video = document.getElementById('video');
+    const overlayImg = document.getElementById('overlay-img');
+
+    async function startCamera() {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } });
+        video.srcObject = stream;
+        video.addEventListener('loadedmetadata', () => {
+          overlayImg.style.top = window.innerHeight / 2 - 80 + 'px';
+          overlayImg.style.left = window.innerWidth / 2 + 'px';
+        });
+      } catch (err) {
+        console.error('Error accessing camera:', err);
+      }
+    }
+
+    window.addEventListener('resize', () => {
+      overlayImg.style.top = window.innerHeight / 2 - 80 + 'px';
+      overlayImg.style.left = window.innerWidth / 2 + 'px';
+    });
+
+    startCamera();
+  </script>
+</body>
+</html>
